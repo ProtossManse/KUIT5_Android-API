@@ -12,12 +12,15 @@ import com.example.kuitandroidapiexample.ui.home.viewmodel.AnimalViewModel
 import com.example.kuitandroidapiexample.ui.model.AnimalType
 import com.example.kuitandroidapiexample.ui.register.uistate.AnimalAddUiState
 import com.example.kuitandroidapiexample.ui.register.uistate.toDto
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AnimalRegisterViewModel(
+@HiltViewModel
+class AnimalRegisterViewModel @Inject constructor(
     private val animalRepository: AnimalRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AnimalAddUiState())
@@ -76,13 +79,4 @@ class AnimalRegisterViewModel(
             )
         }
     }
-}
-
-
-class AnimalRegisterViewModelFactory(
-    private val animalRepository: AnimalRepository
-
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        AnimalRegisterViewModel(animalRepository) as T
 }

@@ -3,22 +3,21 @@ package com.example.kuitandroidapiexample.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.kuitandroidapiexample.App
+import com.example.kuitandroidapiexample.KuitApplication
 import com.example.kuitandroidapiexample.ui.detail.screen.DetailScreen
 import com.example.kuitandroidapiexample.ui.detail.viewmodel.AnimalDetailViewModel
-import com.example.kuitandroidapiexample.ui.detail.viewmodel.AnimalDetailViewModelFactory
 import com.example.kuitandroidapiexample.ui.home.screen.HomeScreen
 import com.example.kuitandroidapiexample.ui.home.screen.PreferencesScreen
 import com.example.kuitandroidapiexample.ui.home.viewmodel.AnimalViewModel
-import com.example.kuitandroidapiexample.ui.home.viewmodel.AnimalViewModelFactory
 import com.example.kuitandroidapiexample.ui.register.screen.RegisterScreen
 import com.example.kuitandroidapiexample.ui.register.viewmodel.AnimalRegisterViewModel
-import com.example.kuitandroidapiexample.ui.register.viewmodel.AnimalRegisterViewModelFactory
 
 @Composable
 fun MainNavHost(
@@ -26,7 +25,7 @@ fun MainNavHost(
 ) {
     val navController = rememberNavController()
 
-    val context = LocalContext.current.applicationContext as App
+    val context = LocalContext.current.applicationContext as KuitApplication
 
     NavHost(
         navController = navController,
@@ -40,19 +39,14 @@ fun MainNavHost(
                     navController.navigate(Route.Detail(index))
                 },
                 navigateToPref = { navController.navigate(Route.Preference) },
-                viewModel = viewModel(
-                    factory = AnimalViewModelFactory(context.appContainer.provideRepository())
-                )
+                viewModel = hiltViewModel()
             )
         }
         composable<Route.Register> {
             RegisterScreen(
                 padding = padding,
                 navigateToBack = { navController.navigateUp() },
-                viewModel = viewModel(
-                    factory = AnimalRegisterViewModelFactory(context.appContainer.provideRepository())
-                )
-
+                viewModel = hiltViewModel()
             )
         }
         composable<Route.Detail> { navBackStackEntry ->
@@ -62,9 +56,7 @@ fun MainNavHost(
                 padding = padding,
                 index = args.index,
                 navigateToBack = { navController.navigateUp() },
-                viewModel = viewModel(
-                    factory = AnimalDetailViewModelFactory(context.appContainer.provideRepository())
-                )
+                viewModel = hiltViewModel()
             )
         }
 

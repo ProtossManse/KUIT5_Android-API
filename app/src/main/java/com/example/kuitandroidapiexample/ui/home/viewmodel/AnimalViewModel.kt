@@ -20,11 +20,14 @@ import com.example.kuitandroidapiexample.ui.detail.uistate.toUiState
 import com.example.kuitandroidapiexample.ui.home.uistate.AnimalUiState
 import com.example.kuitandroidapiexample.ui.home.uistate.toUiState
 import com.example.kuitandroidapiexample.ui.model.AnimalType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AnimalViewModel(
+@HiltViewModel
+class AnimalViewModel @Inject constructor(
     private val animalRepository: AnimalRepository
 ) : ViewModel() {
 
@@ -44,15 +47,4 @@ class AnimalViewModel(
             )
         }
     }
-}
-
-
-
-
-class AnimalViewModelFactory(
-    private val animalRepository: AnimalRepository
-
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        AnimalViewModel(animalRepository) as T
 }
